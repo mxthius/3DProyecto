@@ -107,3 +107,8 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+ProjectSettings/ProjectAuditorSettings.asset
+ProjectSettings/ProjectSettings.asset
+*.asset
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectAuditorSettings.asset
