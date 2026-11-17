@@ -1,0 +1,114 @@
+{
+    "version": 1,
+    "name": "ControlesInput",
+    "maps": [
+        {
+            "name": "MovimientoJugador",
+            "id": "3ea9768f-1051-44ee-acd4-5e2af6881dff",
+            "actions": [
+                {
+                    "name": "Movimiento",
+                    "type": "Value",
+                    "id": "34f35f32-bf21-4c4c-ba9d-87bc627c8d45",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "3D Vector",
+                    "id": "d05d2009-84cd-498e-a660-f8899d240945",
+                    "path": "3DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "554556cc-9ad8-4d78-b8f2-579360ed7821",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "59e920b9-05ef-4d2f-87bf-db676f75f8be",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f76aa3c5-f4c0-44f9-bf38-559f39d49ac4",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "32c64472-87bb-4d24-a980-ed9f1d5978f2",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "forward",
+                    "id": "f5c12ce0-bb55-4f6a-9911-2aa896973d8c",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "backward",
+                    "id": "dcdd3af1-d9b7-45a6-a624-fb04fa48a9d8",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
