@@ -1,15 +1,17 @@
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 
-public class CharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 
     //private Rigidbody;
-    private CharacterController controller;
+    public CharacterController controller;
     public float speed;
+    public float turnspeed;
     public InputActionReference moveAction;
-    public Vector3 moveInput;
+    public Vector2 moveInput;
     public string varchar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -30,7 +32,17 @@ public class CharacterController : MonoBehaviour
         //transform
 
 
-        moveInput = moveAction.action.ReadValue<Vector3>();
+        moveInput = moveAction.action.ReadValue<Vector2>();
         Debug.Log(moveInput);
+        if (moveInput.x != 0)
+        {
+            float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
+            transform.Rotate(0f, rotationaMOUNT,0f);
+
+        }
+
+        Vector3 direccion = transform.forward * moveInput.y;
+        controller.Move(direccion * speed * Time.deltaTime);
+
     }
 }
