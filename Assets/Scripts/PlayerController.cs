@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     private bool isGround;
 
+    public Animator anim;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -37,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         moveAction.action.Disable();
+        anim = GetComponentInChildren<Animator>();
     }
 
 
