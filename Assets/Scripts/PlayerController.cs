@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour
         if (salto.action.WasPressedThisFrame()&& isGround)
         {
            verticalVelocity = jumpforce;
+            anim.SetTrigger("Jump");
+            Debug.Log("Salto confirmado");
         }
 
 
@@ -76,6 +78,8 @@ public class PlayerController : MonoBehaviour
         Vector3 direccion = transform.forward * moveInput.y *speed;
         direccion.y = verticalVelocity;
         controller.Move(direccion * speed * Time.deltaTime);
+
+        anim.SetFloat("Move", moveInput.y);
 
     }
 
