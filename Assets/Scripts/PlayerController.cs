@@ -61,10 +61,10 @@ public class PlayerController : MonoBehaviour
         //Verificar si el jugador esta tocando el piso
         isGround = Physics.CheckSphere(groundcheck.position,grounRadius,groundLayer);
 
-            if (salto.action.WasPressedThisFrame()&& isGround)
-            {
-                verticalVelocity = jumpforce;
-            }
+        if (salto.action.WasPressedThisFrame()&& isGround)
+        {
+           verticalVelocity = jumpforce;
+        }
 
 
         verticalVelocity += gravedad * Time.deltaTime;
