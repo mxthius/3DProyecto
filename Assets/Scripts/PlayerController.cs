@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
         verticalVelocity += gravedad * Time.deltaTime;
 
-        Vector3 direccion = transform.forward * moveInput.y *speed;
+        Vector3 direccion = transform.forward * moveInput.y * speed;
         direccion.y = verticalVelocity;
         controller.Move(direccion * speed * Time.deltaTime);
 
