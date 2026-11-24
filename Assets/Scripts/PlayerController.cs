@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
 
     public Animator anim;
 
+    //------Variables de vida------//
+    public int life = 5;
+    //-------------------------------//
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -54,13 +57,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveInput = moveAction.action.ReadValue<Vector2>();
-        Debug.Log(moveInput);
-        if (moveInput.x != 0)
-        {
-            float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
-            transform.Rotate(0f, rotationaMOUNT,0f);
+        //Debug.Log(moveInput);
+        //if (moveInput.x != 0)
+        //{
+        //    float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
+        //    transform.Rotate(0f, rotationaMOUNT,0f);
 
-        }
+        //}
 
         //Verificar si el jugador esta tocando el piso
         isGround = Physics.CheckSphere(groundcheck.position,grounRadius,groundLayer);
@@ -88,5 +91,52 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.aliceBlue;
         Gizmos.DrawWireSphere(groundcheck.position,grounRadius);
     }
+
+    
+    private void OnTriggerEnter(Collider colision)
+    {
+        if(colision.CompareTag("Cube"))
+        {
+            life -= 1;
+
+            Debug.Log("❤️" + life);
+
+            //Destroy(colision.gameObject);
+            Debug.Log("COLISION CUBO 😁😁😁");
+
+            if(life <= 0)
+            {
+                Destroy(gameObject);
+                Debug.Log("MORISTE 🩻🩻");
+            }
+
+        }
+        else if(colision.CompareTag("Circle"))
+        {
+            Destroy(gameObject);
+            Debug.Log("COLISION CIRCULO 😍😍😍");
+        }
+
+
+
+    }
+
+    
+    private void OnTriggerExit(Collider colision)
+    {
+
+        if (colision.CompareTag("Cube"))
+        {
+
+            Debug.Log("SALE DEL  CUBO 👍👍👍👍");
+        }
+        else if (colision.CompareTag("Circle"))
+        {
+            Debug.Log("SALE DEL CIRCULO 😒😒😒");
+        }
+
+
+    }
+
 
 }
