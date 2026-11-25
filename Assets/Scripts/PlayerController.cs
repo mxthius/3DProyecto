@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
 
     public Animator anim;
 
+    public InputActionReference shoot;
+    public GameObject bullet;
+    public Transform bulletPosition;
+
     //------Variables de vida------//
     public int life = 5;
     //-------------------------------//
@@ -38,12 +42,18 @@ public class PlayerController : MonoBehaviour
     {
         moveAction.action.Enable();
         salto.action.Enable();
+        shoot.action.Enable();
     }
 
     private void OnDisable()
     {
         moveAction.action.Disable();
-        anim = GetComponentInChildren<Animator>();
+        shoot.action.Disable();
+
+
+        //anim = GetComponentInChildren<Animator>();
+        
+
     }
 
 
@@ -56,14 +66,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //-------------Funcion de movimiento General--------------------------**
         moveInput = moveAction.action.ReadValue<Vector2>();
-        //Debug.Log(moveInput);
-        //if (moveInput.x != 0)
-        //{
-        //    float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
-        //    transform.Rotate(0f, rotationaMOUNT,0f);
+        if (moveInput.x != 0)
+        {
+            float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
+            transform.Rotate(0f, rotationaMOUNT, 0f);
 
-        //}
+        }
 
         //Verificar si el jugador esta tocando el piso
         isGround = Physics.CheckSphere(groundcheck.position,grounRadius,groundLayer);
@@ -75,14 +85,21 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Salto confirmado");
         }
 
-
         verticalVelocity += gravedad * Time.deltaTime;
 
         Vector3 direccion = transform.forward * moveInput.y * speed;
         direccion.y = verticalVelocity;
         controller.Move(direccion * speed * Time.deltaTime);
 
-        anim.SetFloat("Move", moveInput.y);
+
+
+        //--------------Funcion Disparo-----------------//
+
+        disparo();
+        //-----------------------------------------------//
+
+
+        //anim.SetFloat("Move", moveInput.y);
 
     }
 
@@ -133,6 +150,19 @@ public class PlayerController : MonoBehaviour
         else if (colision.CompareTag("Circle"))
         {
             Debug.Log("SALE DEL CIRCULO 😒😒😒");
+        }
+
+
+    }
+
+
+    private void disparo()
+    {
+        //Funcion de disparo
+        if (shoot.action.WasPressedThisFrame())
+        {
+            Instantiate(bullet, bulletPosition.position, bulletPosition.rotation);
+            Debug.Log("DISPARO");
         }
 
 

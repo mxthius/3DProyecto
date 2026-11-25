@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Cube
   - Circle
+  - EnemigoBala
+  - Enemigo
   layers:
   - Default
   - TransparentFX

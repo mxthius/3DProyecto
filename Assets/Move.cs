@@ -7,7 +7,7 @@ public class Move : MonoBehaviour
     void Start()
     {
         Debug.Log(transform.position);
- transform.Translate (direccion * velocidad* Time.deltaTime);
+        transform.Translate(direccion * velocidad * Time.deltaTime);
         Debug.Log(transform.position);
     }
     //Frame por Frame 
