@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     //private Rigidbody;
     private CharacterController controller;
-    public float speed;
+    private float speed = 6;
     public float turnspeed;
     public InputActionReference moveAction;
     public Vector2 moveInput;
@@ -70,12 +70,17 @@ public class PlayerController : MonoBehaviour
         moveInput = moveAction.action.ReadValue<Vector2>();
         if (moveInput.x != 0)
         {
-            float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
-            transform.Rotate(0f, rotationaMOUNT, 0f);
+            //float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
+            //transform.Rotate(0f, rotationaMOUNT, 0f);
+
+            Vector3 direccionX = transform.forward * moveInput.y * speed;
+            direccionX.x = speed;
+            controller.Move(direccionX * speed * Time.deltaTime);
 
         }
 
-        //Verificar si el jugador esta tocando el piso
+        //-------------------Salto jugador----------------------------//
+
         isGround = Physics.CheckSphere(groundcheck.position,grounRadius,groundLayer);
 
         if (salto.action.WasPressedThisFrame()&& isGround)
@@ -91,11 +96,12 @@ public class PlayerController : MonoBehaviour
         direccion.y = verticalVelocity;
         controller.Move(direccion * speed * Time.deltaTime);
 
-
+        //------------------------------------------------------------//
 
         //--------------Funcion Disparo-----------------//
 
         disparo();
+
         //-----------------------------------------------//
 
 
