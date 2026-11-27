@@ -6,24 +6,33 @@ public class MovimCamara : MonoBehaviour
     public Transform Player;
     public float sensibilidadMouse = 0.01f;
 
-    private float RotacionVertical = 0f;
+    private float rotacionVertical = 0f;
+    private float rotacionHorizontal = 0f;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (Player != null)
+            rotacionHorizontal = Player.eulerAngles.y;
     }
 
-    void Update()
+    // LateUpdate: corre después de todos los Update, incluido el movimiento del Player
+    void LateUpdate()
     {
-        if (Mouse.current == null) return;
+        if (Mouse.current == null || Player == null) return;
 
         Vector2 delta = Mouse.current.delta.ReadValue() * sensibilidadMouse;
 
-        RotacionVertical -= delta.y;
-        RotacionVertical = Mathf.Clamp(RotacionVertical, -80f, 80f);
-        transform.localRotation = Quaternion.Euler(RotacionVertical, 0f, 0f);
+        // Evita saltos bruscos (por ejemplo al recuperar el foco de la ventana)
+        delta = Vector2.ClampMagnitude(delta, 10f);
 
-        Player.Rotate(Vector3.up * delta.x);
+        rotacionVertical -= delta.y;
+        rotacionVertical = Mathf.Clamp(rotacionVertical, -80f, 80f);
+        transform.localRotation = Quaternion.Euler(rotacionVertical, 0f, 0f);
+
+        rotacionHorizontal += delta.x;
+        Player.rotation = Quaternion.Euler(0f, rotacionHorizontal, 0f);
     }
 }

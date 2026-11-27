@@ -1,27 +1,20 @@
-using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-
-    //private Rigidbody;
     private CharacterController controller;
     private float speed = 25;
-    public float turnspeed;
     public InputActionReference moveAction;
     public Vector2 moveInput;
-    private string varchar;
 
     //Variables de salto
-    private float gravedad = -25f;
+    private float gravedad = -50f;
     public float jumpforce = 8f;
     private float verticalVelocity;
     public InputActionReference salto;
     public Transform groundcheck;
-    public float grounRadius;
+    public float grounRadius = 0.3f;
     public LayerMask groundLayer;
     private bool isGround;
 
@@ -29,15 +22,15 @@ public class PlayerController : MonoBehaviour
 
     public InputActionReference shoot;
     public InputActionReference interactuar;
+    public InputActionReference run;
+
     public GameObject bullet;
+
     public Transform bulletPosition;
+
 
     //------Variables de vida------//
     public int life = 5;
-    //-------------------------------//
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void OnEnable()
     {
@@ -45,46 +38,59 @@ public class PlayerController : MonoBehaviour
         salto.action.Enable();
         shoot.action.Enable();
         interactuar.action.Enable();
+        run.action.Enable();
     }
 
     private void OnDisable()
     {
         moveAction.action.Disable();
+        salto.action.Disable();
         shoot.action.Disable();
-        interactuar.action.Disable() ;
-
-        //anim = GetComponentInChildren<Animator>();
-
-
+        interactuar.action.Disable();
+        run.action.Disable();
     }
-
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        anim = GetComponentInChildren<Animator>();
+        if (anim == null)
+            anim = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //------------- Movimiento general -------------//
         moveInput = moveAction.action.ReadValue<Vector2>();
 
         Vector3 movimiento = transform.right * moveInput.x + transform.forward * moveInput.y;
-        movimiento *= speed;
 
+        //Correr
+        if (run.action.IsPressed())
+        {
+
+            Debug.Log("CORRIENDO");
+            movimiento *= speed*2;
+        }
+        else
+        {
+            movimiento *= speed;
+        }
         //------------- Salto -------------//
-        isGround = Physics.CheckSphere(groundcheck.position, grounRadius, groundLayer);
+        isGround = controller.isGrounded ||
+                   Physics.CheckSphere(groundcheck.position, grounRadius, groundLayer, QueryTriggerInteraction.Ignore);
 
         if (isGround && verticalVelocity < 0f)
             verticalVelocity = -2f;
 
-        if (salto.action.WasPressedThisFrame() && isGround)
+        if (salto.action.WasPressedThisFrame())
         {
-            verticalVelocity = jumpforce;
-            anim.SetTrigger("Jump");
-            Debug.Log("Salto confirmado");
+            Debug.Log("Botón de salto presionado. isGround = " + isGround);
+
+            if (isGround)
+            {
+                verticalVelocity = jumpforce;
+                if (anim != null) anim.SetTrigger("Jump");
+            }
         }
 
         verticalVelocity += gravedad * Time.deltaTime;
@@ -93,84 +99,57 @@ public class PlayerController : MonoBehaviour
         controller.Move(movimiento * Time.deltaTime);
 
         disparo();
-
         Interactuar();
-
     }
+
     private void OnDrawGizmos()
     {
+        if (groundcheck == null) return;
         Gizmos.color = Color.aliceBlue;
-        Gizmos.DrawWireSphere(groundcheck.position,grounRadius);
+        Gizmos.DrawWireSphere(groundcheck.position, grounRadius);
     }
 
-    
     private void OnTriggerEnter(Collider colision)
     {
-        if(colision.CompareTag("Cube"))
+        if (colision.CompareTag("Cube"))
         {
             life -= 1;
-
             Debug.Log("❤️" + life);
-
-            //Destroy(colision.gameObject);
             Debug.Log("COLISION CUBO 😁😁😁");
 
-            if(life <= 0)
+            if (life <= 0)
             {
                 Destroy(gameObject);
                 Debug.Log("MORISTE 🩻🩻");
             }
-
         }
-        else if(colision.CompareTag("Circle"))
+        else if (colision.CompareTag("Circle"))
         {
             Destroy(gameObject);
             Debug.Log("COLISION CIRCULO 😍😍😍");
         }
+    }
 
-
-
+    private void OnTriggerExit(Collider colision)
+    {
+        if (colision.CompareTag("Cube"))
+            Debug.Log("SALE DEL  CUBO 👍👍👍👍");
+        else if (colision.CompareTag("Circle"))
+            Debug.Log("SALE DEL CIRCULO 😒😒😒");
     }
 
     private void Interactuar()
     {
-        //Funcion de disparo
-        if (interactuar.action.WasPressedThisFrame() )
-        {
-            
+        if (interactuar.action.WasPressedThisFrame())
             Debug.Log("Interactua 👁️👁️👁️");
-        }
     }
-
-
-    private void OnTriggerExit(Collider colision)
-    {
-
-        if (colision.CompareTag("Cube"))
-        {
-
-            Debug.Log("SALE DEL  CUBO 👍👍👍👍");
-        }
-        else if (colision.CompareTag("Circle"))
-        {
-            Debug.Log("SALE DEL CIRCULO 😒😒😒");
-        }
-
-
-    }
-
 
     private void disparo()
     {
-        //Funcion de disparo
         if (shoot.action.WasPressedThisFrame())
         {
             Instantiate(bullet, bulletPosition.position, bulletPosition.rotation);
             Debug.Log("DISPARO");
         }
-
-
     }
-
-
 }
