@@ -8,6 +8,8 @@ TagManager:
   - Circle
   - EnemigoBala
   - Enemigo
+  - AreaInteraccion
+  - ObjetoInteractuable
   layers:
   - Default
   - TransparentFX

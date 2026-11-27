@@ -27,9 +27,9 @@
                     "priority": 0
                 },
                 {
-                    "name": "VistaMouse",
+                    "name": "Attack",
                     "type": "Button",
-                    "id": "918033d7-91e6-4fe8-8905-d9dafa650cb7",
+                    "id": "eaee7a8c-1d2c-4757-bf36-4065f710ad02",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -37,9 +37,9 @@
                     "priority": 0
                 },
                 {
-                    "name": "Attack",
+                    "name": "Interactuar",
                     "type": "Button",
-                    "id": "eaee7a8c-1d2c-4757-bf36-4065f710ad02",
+                    "id": "4e14f3a1-5e29-4e74-9122-e18dcdabd2b6",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -116,23 +116,23 @@
                 },
                 {
                     "name": "",
-                    "id": "51ea7c19-9a64-4b7d-bdd7-e5b2d26e0931",
-                    "path": "",
+                    "id": "28c46ebe-0339-489e-a03e-de599ae99899",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "VistaMouse",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "28c46ebe-0339-489e-a03e-de599ae99899",
+                    "id": "06df5029-dbfc-4b4f-8d92-8c45d3571d68",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "Interactuar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

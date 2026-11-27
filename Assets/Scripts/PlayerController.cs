@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     //private Rigidbody;
     private CharacterController controller;
-    private float speed = 6;
+    private float speed = 25;
     public float turnspeed;
     public InputActionReference moveAction;
     public Vector2 moveInput;
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
 
     public InputActionReference shoot;
+    public InputActionReference interactuar;
     public GameObject bullet;
     public Transform bulletPosition;
 
@@ -43,16 +44,17 @@ public class PlayerController : MonoBehaviour
         moveAction.action.Enable();
         salto.action.Enable();
         shoot.action.Enable();
+        interactuar.action.Enable();
     }
 
     private void OnDisable()
     {
         moveAction.action.Disable();
         shoot.action.Disable();
-
+        interactuar.action.Disable() ;
 
         //anim = GetComponentInChildren<Animator>();
-        
+
 
     }
 
@@ -66,49 +68,35 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //-------------Funcion de movimiento General--------------------------**
+        //------------- Movimiento general -------------//
         moveInput = moveAction.action.ReadValue<Vector2>();
-        if (moveInput.x != 0)
+
+        Vector3 movimiento = transform.right * moveInput.x + transform.forward * moveInput.y;
+        movimiento *= speed;
+
+        //------------- Salto -------------//
+        isGround = Physics.CheckSphere(groundcheck.position, grounRadius, groundLayer);
+
+        if (isGround && verticalVelocity < 0f)
+            verticalVelocity = -2f;
+
+        if (salto.action.WasPressedThisFrame() && isGround)
         {
-            //float rotationaMOUNT = moveInput.x * turnspeed * Time.deltaTime;
-            //transform.Rotate(0f, rotationaMOUNT, 0f);
-
-            Vector3 direccionX = transform.forward * moveInput.y * speed;
-            direccionX.x = speed;
-            controller.Move(direccionX * speed * Time.deltaTime);
-
-        }
-
-        //-------------------Salto jugador----------------------------//
-
-        isGround = Physics.CheckSphere(groundcheck.position,grounRadius,groundLayer);
-
-        if (salto.action.WasPressedThisFrame()&& isGround)
-        {
-           verticalVelocity = jumpforce;
+            verticalVelocity = jumpforce;
             anim.SetTrigger("Jump");
             Debug.Log("Salto confirmado");
         }
 
         verticalVelocity += gravedad * Time.deltaTime;
+        movimiento.y = verticalVelocity;
 
-        Vector3 direccion = transform.forward * moveInput.y * speed;
-        direccion.y = verticalVelocity;
-        controller.Move(direccion * speed * Time.deltaTime);
-
-        //------------------------------------------------------------//
-
-        //--------------Funcion Disparo-----------------//
+        controller.Move(movimiento * Time.deltaTime);
 
         disparo();
 
-        //-----------------------------------------------//
-
-
-        //anim.SetFloat("Move", moveInput.y);
+        Interactuar();
 
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.aliceBlue;
@@ -144,7 +132,17 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    
+    private void Interactuar()
+    {
+        //Funcion de disparo
+        if (interactuar.action.WasPressedThisFrame() )
+        {
+            
+            Debug.Log("Interactua 👁️👁️👁️");
+        }
+    }
+
+
     private void OnTriggerExit(Collider colision)
     {
 
